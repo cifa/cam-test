@@ -10,7 +10,7 @@ import com.camelot.transport.Prize;
 import com.google.common.collect.Sets;
 
 public class WinWinPrizeService implements PrizeService {
-	
+
 	private static final int JACKPOT_BASE = 10000;
 	private static final int PRIZE_PER_NUMBER = 1000;
 	private static final int PRIZE_THRESHOLD = 3;
@@ -26,10 +26,11 @@ public class WinWinPrizeService implements PrizeService {
 		} else {
 			basePrize = calculateConsolationPrize(res.getNumbersDrawn());
 		}
-		return new Prize(withBonus(res.getDrawDate(),basePrize));
+		return new Prize(withBonus(res.getDrawDate(), basePrize));
 	}
 
-	private Set<Integer> getCorrectGuesses(Set<Integer> numbersDrawn, Set<Integer> guessNumbers) {
+	private Set<Integer> getCorrectGuesses(Set<Integer> numbersDrawn,
+			Set<Integer> guessNumbers) {
 		return Sets.intersection(numbersDrawn, guessNumbers);
 	}
 
@@ -38,11 +39,10 @@ public class WinWinPrizeService implements PrizeService {
 		int basePrize = PRIZE_PER_NUMBER * correctGuesses.size();
 		int bonus = Sets.difference(numbersDrawn, correctGuesses).stream()
 				.mapToInt(Integer::intValue)
-				.reduce((left, right) -> left * right)
-				.orElse(0);
+				.reduce((left, right) -> left * right).orElse(0);
 		return basePrize + bonus;
 	}
-	
+
 	private int calculateJackpot(Set<Integer> correctGuesses) {
 		return correctGuesses.stream()
 				.mapToInt((num) -> num * JACKPOT_BASE)
@@ -50,11 +50,9 @@ public class WinWinPrizeService implements PrizeService {
 	}
 
 	private int calculateConsolationPrize(Set<Integer> drawnNumbers) {
-		return drawnNumbers.stream()
-				.mapToInt(Integer::intValue)
-				.sum();	
+		return drawnNumbers.stream().mapToInt(Integer::intValue).sum();
 	}
-	
+
 	private int withBonus(LocalDate drawDate, int basePrize) {
 		int coef = 1;
 		if (drawDate.isLeapYear() && drawDate.getMonth() == Month.FEBRUARY) {

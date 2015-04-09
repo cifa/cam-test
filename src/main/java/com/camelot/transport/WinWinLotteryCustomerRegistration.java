@@ -32,12 +32,11 @@ public class WinWinLotteryCustomerRegistration implements CustomerRegistration {
 		try {
 			checkNotNull(regDetails);
 			checkArgument(regDetails.length == GUESS_NUMBERS_COUNT + 1);
-			
+
 			this.endDate = extractDate(regDetails[0]);
 			this.startDate = endDate.minus(REG_PERIOD);
-			this.guessNumbers = extractGuessNumbers(Arrays.copyOfRange(
-					regDetails, 1, 7));
-			
+			this.guessNumbers = extractGuessNumbers(Arrays.copyOfRange(regDetails, 1, 7));
+
 			checkState(guessNumbers.size() == GUESS_NUMBERS_COUNT);
 		} catch (Exception ex) {
 			throw new RegistrationException("Invalid registration details", ex);
@@ -48,8 +47,7 @@ public class WinWinLotteryCustomerRegistration implements CustomerRegistration {
 		return Arrays
 				.stream(copyOfRange)
 				.map(Integer::parseInt)
-				.filter((num) -> num >= GUESS_LOWER_BOUND
-						&& num <= GUESS_UPPER_BOUND)
+				.filter((num) -> num >= GUESS_LOWER_BOUND && num <= GUESS_UPPER_BOUND)
 				.collect(Collectors.toSet());
 	}
 

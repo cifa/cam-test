@@ -12,30 +12,33 @@ import com.camelot.transport.Prize;
 import com.google.inject.Inject;
 
 public class LotteryRunner implements Runnable {
-	
+
 	private final LotteryService lotteryService;
 	private final PrizeService priceService;
 	private final PublisherService publisherService;
 	private final CustomerRegistration custReg;
 
 	@Inject
-	public LotteryRunner(LotteryService lotteryService, PrizeService priceService, 
-			PublisherService publisherService, CustomerRegistration custReg) {
-				this.lotteryService = lotteryService;
-				this.priceService = priceService;
-				this.publisherService = publisherService;
-				this.custReg = custReg;
+	public LotteryRunner(LotteryService lotteryService,
+			PrizeService priceService, PublisherService publisherService,
+			CustomerRegistration custReg) {
+		this.lotteryService = lotteryService;
+		this.priceService = priceService;
+		this.publisherService = publisherService;
+		this.custReg = custReg;
 	}
-	
+
 	public void run() {
 		lotteryService
-				.getDrawResultsForPeriod(custReg.getStartDate(), custReg.getEndDate())
+				.getDrawResultsForPeriod(custReg.getStartDate(),
+						custReg.getEndDate())
 				.stream()
 				.collect(
-						Collectors.toMap(Function.identity(), this::calculateCustomerPrize)
-				).forEach(publisherService::publishLotteryResults);
+						Collectors.toMap(Function.identity(),
+								this::calculateCustomerPrize))
+				.forEach(publisherService::publishLotteryResults);
 	}
-	
+
 	private Prize calculateCustomerPrize(DrawResult res) {
 		return priceService.calculatePrizeFor(res, custReg.getGuessNumbers());
 	}

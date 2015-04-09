@@ -14,6 +14,6 @@ public class Prize {
 
 	@Override
 	public String toString() {
-		return "£" + value;
+		return "Â£" + value;
 	}
 }

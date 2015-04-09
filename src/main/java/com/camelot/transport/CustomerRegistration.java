@@ -6,9 +6,6 @@ import java.util.Set;
 public interface CustomerRegistration {
 
 	Set<Integer> getGuessNumbers();
-
 	LocalDate getStartDate();
-
 	LocalDate getEndDate();
-
 }
