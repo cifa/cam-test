@@ -1,9 +1,9 @@
 package com.camelot.service;
 
-import java.time.LocalDate;
-import java.util.Set;
+import com.camelot.transport.DrawResult;
+import com.camelot.transport.Prize;
 
 public interface PublisherService {
 
-	void publishLotteryResults(LocalDate drawDate, Set<Integer> drawnNumbers, int prize);
+	void publishLotteryResults(DrawResult result, Prize customerPrize);
 }
